@@ -1,0 +1,221 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.language-selector {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.language-selector label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.language-selector select {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    background: white;
+    transition: border-color 0.3s ease;
+}
+
+.language-selector select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto 30px;
+    padding: 15px 25px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.output-container {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.output-container h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.output {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 10px;
+    padding: 25px;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.output p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #333;
+    word-wrap: break-word;
+}
+
+.language-info {
+    text-align: center;
+    color: #666;
+}
+
+.instructions {
+    background: #f1f3f4;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+.instructions h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.instructions ul {
+    list-style-position: inside;
+    color: #555;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .btn-primary {
+        max-width: 100%;
+    }
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+/* Translation Section Styles */
+.translation-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+}
+
+.translation-output {
+    background: #fff3cd;
+    border-color: #ffeaa7;
+}
+
+.btn-secondary {
+    display: block;
+    width: 100%;
+    max-width: 250px;
+    margin: 15px auto 0;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(116, 185, 255, 0.4);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Responsive design for translation section */
+@media (max-width: 768px) {
+    .btn-secondary {
+        max-width: 100%;
+    }
+}

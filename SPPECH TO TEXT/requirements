@@ -1,0 +1,1 @@
+pip install flask speechrecognition pyaudio googletrans==3.1.0a0

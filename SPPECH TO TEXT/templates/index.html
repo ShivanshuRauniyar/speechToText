@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilingual Speech to Text</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Multilingual Speech to Text</h1>
+        <p class="subtitle">Supporting English, Hindi, Telugu, Tamil, and Kannada</p>
+        
+        <form method="POST" id="speechForm">
+            <div class="language-selector">
+                <label for="language">Select Language:</label>
+                <select name="language" id="language">
+                    <option value="english" {% if selected_language == 'english' %}selected{% endif %}>English</option>
+                    <option value="hindi" {% if selected_language == 'hindi' %}selected{% endif %}>हिन्दी (Hindi)</option>
+                    <option value="telugu" {% if selected_language == 'telugu' %}selected{% endif %}>తెలుగు (Telugu)</option>
+                    <option value="tamil" {% if selected_language == 'tamil' %}selected{% endif %}>தமிழ் (Tamil)</option>
+                    <option value="kannada" {% if selected_language == 'kannada' %}selected{% endif %}>ಕನ್ನಡ (Kannada)</option>
+                </select>
+            </div>
+            
+            <button type="submit" id="listenBtn" class="btn-primary">
+                🎤 Start Listening
+            </button>
+        </form>
+
+        <div class="output-container">
+            <h3>Transcribed Text:</h3>
+            <div class="output">
+                <p id="transcriptText">{{ transcript }}</p>
+            </div>
+            
+            {% if transcript %}
+            <div class="language-info">
+                <small>Detected Language: <strong>{{ selected_language.title() }}</strong></small>
+            </div>
+            
+            <!-- Translation Section -->
+            {% if selected_language != 'english' and transcript %}
+            <div class="translation-section">
+                <h3>English Translation:</h3>
+                <div class="output translation-output">
+                    <p id="translatedText">{{ translated_text }}</p>
+                </div>
+                <button id="translateBtn" class="btn-secondary">
+                    🔄 Translate to English
+                </button>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <ul>
+                <li>Select your preferred language</li>
+                <li>Click "Start Listening" and allow microphone access</li>
+                <li>Speak clearly into your microphone</li>
+                <li>Wait for the text to appear</li>
+                <li>For non-English languages, translation to English will appear automatically</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Add loading state to button
+        document.getElementById('speechForm').addEventListener('submit', function() {
+            const btn = document.getElementById('listenBtn');
+            btn.innerHTML = '🎤 Listening...';
+            btn.disabled = true;
+            
+            // Re-enable button after 15 seconds in case of timeout
+            setTimeout(() => {
+                btn.innerHTML = '🎤 Start Listening';
+                btn.disabled = false;
+            }, 15000);
+        });
+
+        // Auto-focus on language selector for better UX
+        document.getElementById('language').addEventListener('change', function() {
+            console.log('Language changed to:', this.value);
+        });
+
+        // Translation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const translateBtn = document.getElementById('translateBtn');
+            if (translateBtn) {
+                translateBtn.addEventListener('click', function() {
+                    const transcriptText = document.getElementById('transcriptText').textContent;
+                    const selectedLanguage = document.getElementById('language').value;
+                    
+                    if (!transcriptText || transcriptText.includes('Could not understand') || transcriptText.includes('Error')) {
+                        alert('No valid text to translate.');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const translatedTextElement = document.getElementById('translatedText');
+                    translatedTextElement.textContent = 'Translating...';
+                    translateBtn.disabled = true;
+                    translateBtn.innerHTML = '🔄 Translating...';
+                    
+                    // Send translation request
+                    fetch('/api/translate', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            text: transcriptText,
+                            source_language: selectedLanguage
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            translatedTextElement.textContent = data.translated_text;
+                        } else {
+                            translatedTextElement.textContent = 'Translation failed: ' + data.error;
+                        }
+                    })
+                    .catch(error => {
+                        translatedTextElement.textContent = 'Translation error: ' + error;
+                    })
+                    .finally(() => {
+                        translateBtn.disabled = false;
+                        translateBtn.innerHTML = '🔄 Translate to English';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
